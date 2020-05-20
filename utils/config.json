@@ -1,0 +1,14 @@
+{
+    "data": "TaoBao",
+    "save_model_folder": "DNNTSP-11",
+
+    "item_embed_dim": 32,
+
+    "cuda": 0,
+    "loss_function": "multi_label_soft_loss",
+    "epochs": 150,
+    "batch_size": 64,
+    "learning_rate": 0.001,
+    "optim": "Adam",
+    "weight_decay": 0
+}
