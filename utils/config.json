@@ -6,7 +6,7 @@
 
     "cuda": 0,
     "loss_function": "multi_label_soft_loss",
-    "epochs": 2,
+    "epochs": 100,
     "batch_size": 64,
     "learning_rate": 0.001,
     "optim": "Adam",
