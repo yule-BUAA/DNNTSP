@@ -2,13 +2,13 @@
 
 DNNTSP is a general neural network architecture that could make prediction on temporal sets.
 
-Please refer to our KDD 2020 paper [“**Predicting Temporal Sets with Deep Neural Networks**”]() for more details.
+Please refer to our KDD 2020 paper [“**Predicting Temporal Sets with Deep Neural Networks**”](https://arxiv.org/pdf/2006.11483.pdf) for more details.
 
 ## Project Structure
-The descriptions of principal files in this project are explained as follow:
+The descriptions of principal files in this project are explained as follows:
 - ./model/
     - `weighted_graph_conv.py`: codes for the Element Relationship Learning component (i.e. weighted GCN on dynamic graphs)
-    - `.masked_self_attention.py` and `aggregate_nodes_temporal_feature.py`: codes for the Attention-based Temporal Dependency Learning component (i.e. masked self-attention and weighted aggregation of temporal information)
+    - `masked_self_attention.py` and `aggregate_nodes_temporal_feature.py`: codes for the Attention-based Temporal Dependency Learning component (i.e. masked self-attention and weighted aggregation of temporal information)
     - `global_gated_update.py`: codes for the Gated Information Fusing component (i.e. gated updating mechanism)
 - ./train/
   - `train_model.py` and `train_main.py`: codes for training models
@@ -28,8 +28,8 @@ Please refer to our paper for more details of parameter settings.
 Hyperparameters could be found in ./utils/config.json and you can adjust them when running the model.
 
 ## How to use
-- Training: after setting the parameters, run ```python train_main.py``` to train models. 
-- Testing: figure out the path of the specific saved model (i.e. variable ```model_path``` in ./test/testing_model.py) and then run ```python testing_model.py``` to evaluate models.
+- Training: after setting the parameters, run ```train_main.py``` file to train models. 
+- Testing: figure out the path of the specific saved model (i.e. variable ```model_path``` in ./test/testing_model.py) and then run ```testing_model.py``` file to evaluate models.
 
 Principal environmental dependencies as follows:
 - [PyTorch 1.5.0](https://pytorch.org/)
@@ -40,13 +40,13 @@ Principal environmental dependencies as follows:
 - [sklearn](https://scikit-learn.org/stable/)
 - [tensorboardX](https://github.com/lanpa/tensorboardX)
 
-### Citation
+## Citation
 Please consider citing the following paper when using our code.
 
 ```bibtex
 @inproceedings{DNNTSP,
   title={Predicting Temporal Sets with Deep Neural Networks},
-  author={Le Yu, Leilei Sun, Bowen Du$, Chuanren Liu, Hui Xiong and Weifeng Lv},
+  author={Le Yu, Leilei Sun, Bowen Du, Chuanren Liu, Hui Xiong and Weifeng Lv},
   booktitle={Proceedings of the 26th ACM SIGKDD International Conference on Knowledge Discovery \& Data Mining},
   year={2020}
 }

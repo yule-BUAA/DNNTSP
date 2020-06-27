@@ -111,9 +111,14 @@ ENV/
 *.json
 *.npy
 .vscode/
-runs/
-original_dataset/
+original_dataset/*
+save_model_folder/*
+results/*
+runs/*
 
 !results/*/*.json
 !utils/config.json
 !data/*/*.json
+!runs/.gitkeep
+!save_model_folder/.gitkeep
+!results/.gitkeep

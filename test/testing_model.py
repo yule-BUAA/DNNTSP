@@ -12,7 +12,7 @@ from utils.util import load_model
 
 if __name__ == '__main__':
     model_path = f"../save_model_folder/{get_attribute('data')}/{get_attribute('save_model_folder')}" \
-        f"/model_epoch_15.pkl"
+        f"/model_epoch_19.pkl"
     print(f'model path -> {model_path}')
 
     model = create_model()
