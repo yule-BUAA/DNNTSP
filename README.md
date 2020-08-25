@@ -2,7 +2,7 @@
 
 DNNTSP is a general neural network architecture that could make prediction on temporal sets.
 
-Please refer to our KDD 2020 paper [“**Predicting Temporal Sets with Deep Neural Networks**”](https://arxiv.org/pdf/2006.11483.pdf) for more details.
+Please refer to our KDD 2020 paper [“**Predicting Temporal Sets with Deep Neural Networks**”](https://dl.acm.org/doi/pdf/10.1145/3394486.3403152) for more details.
 
 ## Project Structure
 The descriptions of principal files in this project are explained as follows:
