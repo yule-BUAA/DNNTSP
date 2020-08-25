@@ -44,10 +44,17 @@ Principal environmental dependencies as follows:
 Please consider citing the following paper when using our code.
 
 ```bibtex
-@inproceedings{DNNTSP,
-  title={Predicting Temporal Sets with Deep Neural Networks},
-  author={Le Yu, Leilei Sun, Bowen Du, Chuanren Liu, Hui Xiong and Weifeng Lv},
-  booktitle={Proceedings of the 26th ACM SIGKDD International Conference on Knowledge Discovery \& Data Mining},
-  year={2020}
+@inproceedings{DBLP:conf/kdd/YuSDL0L20,
+  author    = {Le Yu and
+               Leilei Sun and
+               Bowen Du and
+               Chuanren Liu and
+               Hui Xiong and
+               Weifeng Lv},
+  title     = {Predicting Temporal Sets with Deep Neural Networks},
+  booktitle = {{KDD} '20: The 26th {ACM} {SIGKDD} Conference on Knowledge Discovery
+               and Data Mining, Virtual Event, CA, USA, August 23-27, 2020},
+  pages     = {1083--1091},
+  year      = {2020}
 }
 ```
