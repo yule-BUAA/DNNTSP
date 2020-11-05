@@ -3,7 +3,6 @@ import torch.nn as nn
 import torch
 import dgl
 import dgl.function as fn
-from dgl import init as g_init
 
 
 class weighted_graph_conv(nn.Module):
@@ -32,11 +31,36 @@ class weighted_graph_conv(nn.Module):
         # (N, F) / (N, T, F)
         graph.ndata['n'] = node_features
         # edge_weights, shape (T, N^2)
-        graph.edata['e'] = edge_weights.t().unsqueeze(-1)  # (E, T, 1)
+        # one way: use dgl.function is faster and less requirement of GPU memory
+        graph.edata['e'] = edge_weights.t().unsqueeze(dim=-1)  # (E, T, 1)
         graph.update_all(fn.u_mul_e('n', 'e', 'msg'), fn.sum('msg', 'h'))
+
+        # another way: use user defined function, needs more GPU memory
+        # graph.edata['e'] = edge_weights.t()
+        # graph.update_all(self.gcn_message, self.gcn_reduce)
+
         node_features = graph.ndata.pop('h')
         output = self.linear(node_features)
         return output
+
+    @staticmethod
+    def gcn_message(edges):
+        if edges.src['n'].dim() == 2:
+            # (E, T, 1) (E, 1, F),  matmul ->  matmul (E, T, F)
+            return {'msg': torch.matmul(edges.data['e'].unsqueeze(dim=-1), edges.src['n'].unsqueeze(dim=1))}
+
+        elif edges.src['n'].dim() == 3:
+            # (E, T, 1) (E, T, F),  mul -> (E, T, F)
+            return {'msg': torch.mul(edges.data['e'].unsqueeze(dim=-1), edges.src['n'])}
+
+        else:
+            raise ValueError(f"wrong shape for edges.src['n'], the length of shape is {edges.src['n'].dim()}")
+
+    @staticmethod
+    def gcn_reduce(nodes):
+        # propagate, the first dimension is nodes num in a batch
+        # h, tensor, shape, (N, neighbors, T, F) -> (N, T, F)
+        return {'h': torch.sum(nodes.mailbox['msg'], 1)}
 
 
 class weighted_GCN(nn.Module):

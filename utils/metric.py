@@ -108,8 +108,8 @@ def evaluate(model, data_loader):
     with torch.no_grad():
         for step, (g, nodes_feature, edges_weight, lengths, nodes, truth_data, users_frequency) in enumerate(
                 tqdm(data_loader)):
-            nodes_feature, edges_weight, lengths, nodes, truth_data, users_frequency = \
-                convert_all_data_to_gpu(nodes_feature, edges_weight, lengths, nodes, truth_data, users_frequency)
+            g, nodes_feature, edges_weight, lengths, nodes, truth_data, users_frequency = \
+                convert_all_data_to_gpu(g, nodes_feature, edges_weight, lengths, nodes, truth_data, users_frequency)
 
             predict_data = model(g, nodes_feature, edges_weight, lengths, nodes, users_frequency)
 
