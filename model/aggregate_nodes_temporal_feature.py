@@ -20,7 +20,7 @@ class aggregate_nodes_temporal_feature(nn.Module):
         :param nodes_output: the output of self-attention model in time dimension, (n_1+n_2+..., T_max, F)
         :return: aggregated_features, (n_1+n_2+..., F)
         """
-        nums_nodes, id = graph.batch_num_nodes, 0
+        nums_nodes, id = graph.batch_num_nodes(), 0
         aggregated_features = []
         for num_nodes, length in zip(nums_nodes, lengths):
             # get each user's length, tensor, shape, (user_nodes, user_length, item_embed_dim)

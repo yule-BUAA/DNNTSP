@@ -2,6 +2,7 @@ from typing import List
 import torch.nn as nn
 import torch
 import dgl
+import dgl.function as fn
 from dgl import init as g_init
 
 
@@ -31,31 +32,11 @@ class weighted_graph_conv(nn.Module):
         # (N, F) / (N, T, F)
         graph.ndata['n'] = node_features
         # edge_weights, shape (T, N^2)
-        graph.edata['e'] = edge_weights.t()
-        graph.send(graph.edges(), self.gcn_message)
-        graph.recv(graph.nodes(), self.gcn_reduce)
+        graph.edata['e'] = edge_weights.t().unsqueeze(-1)  # (E, T, 1)
+        graph.update_all(fn.u_mul_e('n', 'e', 'msg'), fn.sum('msg', 'h'))
         node_features = graph.ndata.pop('h')
         output = self.linear(node_features)
         return output
-
-    @staticmethod
-    def gcn_message(edges: dgl.EdgeBatch):
-        if edges.src['n'].dim() == 2:
-            # (B, T, 1) (B, 1, F),  matmul ->  matmul (B, T, F)
-            return {'msg': torch.matmul(edges.data['e'].unsqueeze(dim=-1), edges.src['n'].unsqueeze(dim=1))}
-
-        elif edges.src['n'].dim() == 3:
-            # (B, T, 1) (B, T, F),  mul -> (B, T, F)
-            return {'msg': torch.mul(edges.data['e'].unsqueeze(dim=-1), edges.src['n'])}
-
-        else:
-            raise ValueError(f"wrong shape for edges.src['n'], the length of shape is {edges.src['n'].dim()}")
-
-    @staticmethod
-    def gcn_reduce(nodes: dgl.NodeBatch):
-        # propagate, the first dimension is batch
-        # h, tensor, shape, (B, N, T, F) -> (B, T, F)
-        return {'h': torch.sum(nodes.mailbox['msg'], 1)}
 
 
 class weighted_GCN(nn.Module):
@@ -82,8 +63,6 @@ class weighted_GCN(nn.Module):
                edges_weight: shape (T, n_1^2+n_2^2+...)
         :return:
         """
-        graph.set_n_initializer(g_init.zero_initializer)
-        graph.set_e_initializer(g_init.zero_initializer)
         h = node_features
         for gcn, relu, bn in zip(self.gcns, self.relus, self.bns):
             # (n_1+n_2+..., T, features)

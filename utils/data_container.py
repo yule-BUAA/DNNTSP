@@ -59,15 +59,13 @@ class SetDataset(Dataset):
         # print(nodes)
         nodes_feature = self.item_embedding_matrix(convert_to_gpu(nodes))
         # construct graph for the user
-        g = dgl.DGLGraph()
         project_nodes = torch.tensor(list(range(nodes.shape[0])))
         # construct fully connected graph, containing N nodes, unweighted
-        g.add_nodes(project_nodes.shape[0])
         # (0, 0), (0, 1), ..., (0, N-1), (1, 0), (1, 1), ..., (1, N-1), ...
         # src -> [0, 0, 0, ... N-1, N-1, N-1, ...],  dst -> [0, 1, ..., N-1, ..., 0, 1, ..., N-1]
         src = torch.stack([project_nodes for _ in range(project_nodes.shape[0])], dim=1).flatten().tolist()
         dst = torch.stack([project_nodes for _ in range(project_nodes.shape[0])], dim=0).flatten().tolist()
-        g.add_edges(src, dst)
+        g = dgl.graph((src, dst), num_nodes=project_nodes.shape[0])
         edges_weight_dict = self.get_edges_weight(user_data[:-1])
         # add self-loop
         for node in nodes.tolist():

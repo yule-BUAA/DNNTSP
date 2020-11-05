@@ -33,7 +33,7 @@ Hyperparameters could be found in ./utils/config.json and you can adjust them wh
 
 Principal environmental dependencies as follows:
 - [PyTorch 1.5.0](https://pytorch.org/)
-- [dgl 0.4.3](https://www.dgl.ai/)
+- [dgl 0.5.2](https://www.dgl.ai/)
 - [tqdm](https://github.com/tqdm/tqdm)
 - [numpy](https://github.com/numpy/numpy)
 - [pandas](https://github.com/pandas-dev/pandas)

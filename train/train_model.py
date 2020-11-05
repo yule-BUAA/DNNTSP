@@ -7,7 +7,7 @@ from torch import optim
 from torch.utils.data import DataLoader
 from tensorboardX import SummaryWriter
 
-from utils.util import save_model, convert_to_gpu, convert_all_data_to_gpu
+from utils.util import save_model, convert_to_gpu, convert_graph_to_gpu, convert_all_data_to_gpu
 from utils.metric import get_metric
 
 from tqdm import tqdm
@@ -69,6 +69,7 @@ def train_model(model: nn.Module,
             total_loss = 0.0
             tqdm_loader = tqdm(data_loader_dic[name])
             for step, (g, nodes_feature, edges_weight, lengths, nodes, truth_data, users_frequency) in enumerate(tqdm_loader):
+                g = convert_graph_to_gpu(g) 
                 nodes_feature, edges_weight, lengths, nodes, truth_data, users_frequency = \
                     convert_all_data_to_gpu(nodes_feature, edges_weight, lengths, nodes, truth_data, users_frequency)
 
