@@ -20,7 +20,7 @@ class global_gated_update(nn.Module):
         :param nodes_output: the output of self-attention model in time dimension, (n_1+n_2+..., F)
         :return:
         """
-        nums_nodes, id = graph.batch_num_nodes, 0
+        nums_nodes, id = graph.batch_num_nodes(), 0
         items_embedding = self.item_embedding(torch.tensor([i for i in range(self.items_total)]).to(nodes.device))
         batch_embedding = []
         for num_nodes in nums_nodes:
